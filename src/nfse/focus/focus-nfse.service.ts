@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { INfseProvider } from '../interfaces/nfse-provider.interface';
-import { EmitirNfseDto, EmitirNfseResponseDto } from '../dto/emitir-nfse.dto';
+import { EmitirNfseDto } from '../dto/emitir-nfse.dto';
 import { HttpService } from '../../common/http/http.service';
 import { AxiosError, AxiosResponse } from 'axios';
 import { ConsultarNfseResultDto } from '../dto/consultar-nfse-result..dto';
@@ -12,6 +12,9 @@ import {
   CancelamentoErroComListaResponse,
   CancelamentoSucessoResponse,
 } from '../dto/cancelar-nfse-response.dto';
+import { NfseEnvioResponseDto } from '../dto/nfse-envio-response.dto';
+import { isAxiosError } from 'axios';
+import { EmitirNfseResponseDto } from '../dto/emitir-nfse-response.dto';
 
 @Injectable()
 export class FocusNfseService implements INfseProvider {
@@ -31,14 +34,13 @@ export class FocusNfseService implements INfseProvider {
   async emitirNfse(
     dados: EmitirNfseDto,
     ref: string,
-  ): Promise<EmitirNfseResponseDto> {
+  ): Promise<EmitirNfseResponseDto | NfseErrorDto> {
     try {
       const basicToken = Buffer.from(`${this.token}:`).toString('base64');
-
       const url = `${this.baseUrl}/${encodeURIComponent(ref)}`;
 
       const res = await this.httpService.post<
-        EmitirNfseResponseDto,
+        AxiosResponse<NfseEnvioResponseDto>,
         EmitirNfseDto
       >(url, dados, {
         headers: {
@@ -47,30 +49,36 @@ export class FocusNfseService implements INfseProvider {
         },
       });
 
-      return { success: true, data: res };
+      return {
+        success: true,
+        data: res.data,
+      };
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        const data = error.response?.data as NfseErrorDto | undefined;
+      if (isAxiosError(error) && error.response?.data) {
+        const data = error.response.data as unknown;
 
-        return {
-          success: false,
-          error: data ?? {
-            codigo: 'erro_desconhecido',
-            mensagem: 'Erro desconhecido',
-          },
-        };
-      }
-
-      if (error instanceof Error) {
-        return {
-          success: false,
-          error: { codigo: 'erro_desconhecido', mensagem: error.message },
-        };
+        if (
+          typeof data === 'object' &&
+          data !== null &&
+          'codigo' in data &&
+          'mensagem' in data
+        ) {
+          return {
+            success: false,
+            error: data as NfseErrorDto,
+          };
+        }
       }
 
       return {
         success: false,
-        error: { codigo: 'erro_desconhecido', mensagem: 'Erro desconhecido' },
+        error: {
+          codigo: 'erro_desconhecido',
+          mensagem:
+            error instanceof Error && typeof error.message === 'string'
+              ? error.message
+              : 'Erro desconhecido',
+        },
       };
     }
   }

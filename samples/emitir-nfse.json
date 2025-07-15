@@ -1,0 +1,47 @@
+{
+  "data_emissao": "2025-07-15T14:30:00Z",
+  "natureza_operacao": "Serviços prestados",
+  "prestador": {
+    "cnpj": "12345678000195",
+    "inscricao_municipal": "123456",
+    "codigo_municipio": "3550308"
+  },
+  "tomador": {
+    "cpf": "12345678901",
+    "razao_social": "Cliente Exemplo Ltda",
+    "email": "cliente@exemplo.com",
+    "endereco": {
+      "logradouro": "Rua das Flores",
+      "numero": "123",
+      "complemento": "Sala 45",
+      "bairro": "Centro",
+      "codigo_municipio": "3550308",
+      "uf": "SP",
+      "cep": "01001000"
+    }
+  },
+  "servico": {
+    "discriminacao": "Serviços de consultoria em TI",
+    "codigo_tributario_municipio": "1010101",
+    "item_lista_servico": "1.05",
+    "valor_servicos": "1000.00",
+    "valor_deducoes": "0.00",
+    "valor_pis": "15.00",
+    "valor_cofins": "69.00",
+    "valor_inss": "110.00",
+    "valor_ir": "90.00",
+    "valor_csll": "85.00",
+    "valor_iss": "50.00",
+    "valor_iss_retido": "0.00",
+    "outras_retencoes": "0.00",
+    "base_calculo": "1000.00",
+    "aliquota": "0.05",
+    "desconto_incondicionado": "0.00",
+    "desconto_condicionado": "0.00",
+    "percentual_total_tributos": "0.28",
+    "fonte_total_tributos": "IBPT",
+    "iss_retido": "false",
+    "codigo_cnae": "6201501",
+    "codigo_municipio": "3550308"
+  }
+}

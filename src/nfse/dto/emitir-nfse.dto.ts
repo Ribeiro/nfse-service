@@ -11,7 +11,6 @@ import {
   IsBooleanString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { NfseErrorDto } from './nfse-error.dto';
 
 export class EmitirNfseDto {
   @IsDateString()
@@ -151,10 +150,4 @@ export class ServicoDto {
 
   @IsString()
   codigo_municipio: string;
-}
-
-export class EmitirNfseResponseDto {
-  success: boolean;
-  data?: any;
-  error?: NfseErrorDto | string;
 }
