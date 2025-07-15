@@ -19,7 +19,6 @@ import { EmitirNfseResponseDto } from '../dto/emitir-nfse-response.dto';
 @Injectable()
 export class FocusNfseService implements INfseProvider {
   private readonly baseUrl: string;
-  private readonly cnpj: string;
   private readonly token: string;
 
   constructor(
@@ -27,7 +26,6 @@ export class FocusNfseService implements INfseProvider {
     private readonly configService: ConfigService,
   ) {
     this.baseUrl = this.configService.getOrThrow<string>('FOCUS_BASE_URL');
-    this.cnpj = this.configService.getOrThrow<string>('FOCUS_CNPJ');
     this.token = this.configService.getOrThrow<string>('FOCUS_TOKEN');
   }
 

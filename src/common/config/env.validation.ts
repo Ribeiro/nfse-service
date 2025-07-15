@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export const envSchema = z.object({
   FOCUS_BASE_URL: z.string().url(),
-  FOCUS_CNPJ: z.string().length(14, 'CNPJ deve conter 14 dígitos'),
   FOCUS_TOKEN: z.string().min(1, 'Token não pode estar vazio'),
 });
 
