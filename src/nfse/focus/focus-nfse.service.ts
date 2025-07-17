@@ -4,7 +4,7 @@ import { INfseProvider } from '../interfaces/nfse-provider.interface';
 import { EmitirNfseDto } from '../dto/emitir-nfse.dto';
 import { HttpService } from '../../common/http/http.service';
 import { AxiosError, AxiosResponse } from 'axios';
-import { ConsultarNfseResultDto } from '../dto/consultar-nfse-result..dto';
+import { ConsultarNfseResultDto } from '../dto/consultar-nfse-result.dto';
 import { NfseErrorDto } from '../dto/nfse-error.dto';
 import { ConsultarNfseResponseDto } from '../dto/consultar-nfse-response.dto';
 import { CancelarNfseResultDto } from '../dto/cancelar-nfse-result.dto';
@@ -29,7 +29,7 @@ export class FocusNfseService implements INfseProvider {
     this.token = this.configService.getOrThrow<string>('FOCUS_TOKEN');
   }
 
-  async emitirNfse(
+  async issue(
     dados: EmitirNfseDto,
     ref: string,
   ): Promise<EmitirNfseResponseDto | NfseErrorDto> {
@@ -81,7 +81,7 @@ export class FocusNfseService implements INfseProvider {
     }
   }
 
-  async consultar(ref: string): Promise<ConsultarNfseResultDto> {
+  async query(ref: string): Promise<ConsultarNfseResultDto> {
     const basicToken = Buffer.from(`${this.token}:`).toString('base64');
 
     try {
@@ -140,7 +140,7 @@ export class FocusNfseService implements INfseProvider {
     }
   }
 
-  async cancelar(
+  async cancel(
     ref: string,
     justificativa: string,
   ): Promise<CancelarNfseResultDto> {

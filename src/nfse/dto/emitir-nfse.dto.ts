@@ -12,27 +12,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class EmitirNfseDto {
-  @IsDateString()
-  data_emissao: string;
-
-  @IsString()
-  @IsNotEmpty()
-  natureza_operacao: string;
-
-  @ValidateNested()
-  @Type(() => PrestadorDto)
-  prestador: PrestadorDto;
-
-  @ValidateNested()
-  @Type(() => TomadorDto)
-  tomador: TomadorDto;
-
-  @ValidateNested()
-  @Type(() => ServicoDto)
-  servico: ServicoDto;
-}
-
 export class PrestadorDto {
   @Matches(/^\d{14}$/, { message: 'CNPJ inválido' })
   cnpj: string;
@@ -42,21 +21,6 @@ export class PrestadorDto {
 
   @IsString()
   codigo_municipio: string;
-}
-
-export class TomadorDto {
-  @Matches(/^\d{11}$/, { message: 'CPF inválido' })
-  cpf: string;
-
-  @IsString()
-  razao_social: string;
-
-  @IsEmail()
-  email: string;
-
-  @ValidateNested()
-  @Type(() => EnderecoDto)
-  endereco: EnderecoDto;
 }
 
 export class EnderecoDto {
@@ -82,6 +46,21 @@ export class EnderecoDto {
 
   @Matches(/^\d{8}$/, { message: 'CEP deve ter 8 dígitos numéricos' })
   cep: string;
+}
+
+export class TomadorDto {
+  @Matches(/^\d{11}$/, { message: 'CPF inválido' })
+  cpf: string;
+
+  @IsString()
+  razao_social: string;
+
+  @IsEmail()
+  email: string;
+
+  @ValidateNested()
+  @Type(() => EnderecoDto)
+  endereco: EnderecoDto;
 }
 
 export class ServicoDto {
@@ -150,4 +129,25 @@ export class ServicoDto {
 
   @IsString()
   codigo_municipio: string;
+}
+
+export class EmitirNfseDto {
+  @IsDateString()
+  data_emissao: string;
+
+  @IsString()
+  @IsNotEmpty()
+  natureza_operacao: string;
+
+  @ValidateNested()
+  @Type(() => PrestadorDto)
+  prestador: PrestadorDto;
+
+  @ValidateNested()
+  @Type(() => TomadorDto)
+  tomador: TomadorDto;
+
+  @ValidateNested()
+  @Type(() => ServicoDto)
+  servico: ServicoDto;
 }
